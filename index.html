@@ -29,6 +29,77 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
+  <style>
+    .pipeline-section {
+      position: relative;
+    }
+    .timeline {
+      position: relative;
+      max-width: 900px;
+      margin: auto;
+    }
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      background-color: #ddd;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -3px;
+    }
+    .timeline-container {
+      padding: 20px 40px;
+      position: relative;
+      background-color: inherit;
+      width: 50%;
+    }
+    .timeline-container.left {
+      left: 0;
+    }
+    .timeline-container.right {
+      left: 50%;
+    }
+    .timeline-container::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      right: -10px;
+      background-color: #fff;
+      border: 4px solid #3c6e71;
+      top: 15px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .timeline-container.right::after {
+      left: -10px;
+    }
+    .content {
+      padding: 20px 30px;
+      background-color: white;
+      position: relative;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    @media screen and (max-width: 768px) {
+      .timeline-container {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+      .timeline-container.right {
+        left: 0%;
+      }
+      .timeline::after {
+        left: 31px;
+      }
+      .timeline-container::after {
+        left: 15px;
+      }
+    }
+    </style>
+    
 </head>
 
 <body class="index-page">
@@ -41,8 +112,8 @@
       <ul>
         <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i><span>Home</span></a></li>
         <li><a href="#about"><i class="bi bi-person navicon"></i><span>About</span></a></li>
+        <li><a href="#skills"><i class="bi bi-images navicon"></i><span>Skills</span></a></li>
         <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i><span>Resume</span></a></li>
-        <li><a href="#portfolio"><i class="bi bi-images navicon"></i><span>Portfolio</span></a></li>
         <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i><span>Services</span></a></li>
         <li><a href="#contact"><i class="bi bi-envelope navicon"></i><span>Contact</span></a></li>
       </ul>
@@ -55,7 +126,7 @@
     <!-- Hero Section -->
     <section id="hero" class="hero section light-background">
 
-      <img src="assets/img/hero-bg.jpg" alt="">
+      <img src="assets/img/hero-bg2.jpg" alt="">
 
       <div class="container" data-aos="zoom-out">
         <div class="row justify-content-center">
@@ -151,7 +222,7 @@
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Skills</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p>A comprehensive skill set combining backend expertise, AI engineering, and full-stack automation.</p>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -251,19 +322,46 @@
                 <li>ahmet71cakir@gmail.com</li>
               </ul>
             </div><!-- Edn Resume Item -->
-
-            <h3 class="resume-title">Education</h3>
+            <h3 class="resume-title">Technologies Used</h3>
             <div class="resume-item">
-              <h4>Management Information Systems (MIS)</h4>
-              <h5>2023 - Present</h5>
-              <p><em>Anadolu University</em></p>
+              <h4>Programming Languages</h4>
+              <p><em>Python, PHP, JavaScript, C#, Java</em></p>
             </div><!-- Edn Resume Item -->
-
             <div class="resume-item">
-              <h4>Computer Programming</h4>
-              <h5>2018 - 2020</h5>
-              <p><em>Baskent University</em></p>
+              <h4>Frameworks & Libraries</h4>
+              <p><em>Node.js, Express.js, Flask, FastApi, Spring Boot, .NET Core, CodeIgniter, Bootstrap, jQuery</em>
+              </p>
             </div><!-- Edn Resume Item -->
+            <div class="resume-item">
+              <h4>AI & Machine Learning</h4>
+              <p><em>Hugging Face Transformers, TensorFlow, PyTorch, Keras, Tesseract OCR, OpenCV, Scikit-learn</em></p>
+            </div><!-- Edn Resume Item -->
+            <div class="resume-item">
+              <h4>Web & API</h4>
+              <p><em>RESTful APIs, WebSockets, WebRTC, FastAPI, JWT, OAuth2, SOAP</em></p>
+            </div><!-- Edn Resume Item -->
+            <div class="resume-item">
+              <h4>Tools & Automation</h4>
+              <p><em>Selenium, BeautifulSoup, GitHub Actions, PM2, FFmpeg</em></p>
+            </div><!-- Edn Resume Item -->
+            <div class="resume-item">
+              <h4>Testing & Monitoring</h4>
+              <p><em>Postman, Swagger (OpenAPI)</em></p>
+            </div><!-- Edn Resume Item -->
+            <div class="resume-item">
+              <h4>Databases</h4>
+              <p><em>MySQL, MongoDB, PostgreSQL, SQLite, Redis</em></p>
+            </div><!-- Edn Resume Item -->
+            <div class="resume-item">
+              <h4>Cloud & DevOps</h4>
+              <p><em>Vercel, Cloudflare Workers, Hugging Face Spaces, Docker, Nginx, Apache, Firebase, GitHub Actions,
+                  Netlify, AWS</em></p>
+            </div><!-- Edn Resume Item -->
+            <div class="resume-item">
+              <h4>Other Tools</h4>
+              <p><em>3CX IP PBX, Google Cloud APIs, OpenAI API, Arduino, Linux CLI</em></p>
+            </div><!-- Edn Resume Item -->
+            
 
           </div>
 
@@ -300,6 +398,18 @@
                 Worked on a real-time object recognition project using Python (Tensorflow, Pytorch, Theano, Caffe, Cntk,
                 OpenCV) and later transitioned to C++ for better performance.</p>
             </div>
+            <h3 class="resume-title">Education</h3>
+            <div class="resume-item">
+              <h4>Management Information Systems (MIS)</h4>
+              <h5>2023 - Present</h5>
+              <p><em>Anadolu University</em></p>
+            </div><!-- Edn Resume Item -->
+
+            <div class="resume-item">
+              <h4>Computer Programming</h4>
+              <h5>2018 - 2020</h5>
+              <p><em>Baskent University</em></p>
+            </div><!-- Edn Resume Item -->
           </div>
 
         </div>
@@ -307,7 +417,62 @@
       </div>
 
     </section><!-- /Resume Section -->
-
+    <section id="pipeline" class="pipeline-section" style="background:#fdfdfd; padding: 60px 20px; font-family:'Poppins', sans-serif;">
+      <div class="container">
+        <h2 style="text-align:center; font-weight:700; margin-bottom:40px;">LLM Project Pipeline</h2>
+        <div class="timeline">
+    
+          <!-- Step 1 -->
+          <div class="timeline-container left">
+            <div class="content">
+              <h3>Step 1: Prompt Engineering & Data Generation</h3>
+              <p>Designed high-quality prompt templates targeting vehicle tuning and modification domains. Leveraged Together.AI's inference API to auto-generate thousands of diverse technical questions.</p>
+            </div>
+          </div>
+    
+          <!-- Step 2 -->
+          <div class="timeline-container right">
+            <div class="content">
+              <h3>Step 2: Dataset Expansion via Automated Answering</h3>
+              <p>Developed a Python-based pipeline that systematically queried and collected AI-generated answers, resulting in a multilingual, domain-specific dataset exceeding 5,000 Q&A pairs.</p>
+            </div>
+          </div>
+    
+          <!-- Step 3 -->
+          <div class="timeline-container left">
+            <div class="content">
+              <h3>Step 3: Fine-Tuning the LLM (Phi-4)</h3>
+              <p>Executed model fine-tuning using Hugging Face's transformers and datasets libraries on Google Colab. Applied LoRA-based optimization for training efficiency on limited GPU resources.</p>
+            </div>
+          </div>
+    
+          <!-- Step 4 -->
+          <div class="timeline-container right">
+            <div class="content">
+              <h3>Step 4: Deploying to Hugging Face Spaces</h3>
+              <p>Packaged the fine-tuned model into an interactive inference app using Gradio, and deployed it seamlessly to Hugging Face Spaces for public demo access.</p>
+            </div>
+          </div>
+    
+          <!-- Step 5 -->
+          <div class="timeline-container left">
+            <div class="content">
+              <h3>Step 5: Backend API with FastAPI + FAISS</h3>
+              <p>Built a production-ready RAG system powered by FastAPI. Integrated FAISS vector search with dynamic content retrieval, enabling domain-aware query responses from the dataset.</p>
+            </div>
+          </div>
+    
+          <!-- Step 6 -->
+          <div class="timeline-container right">
+            <div class="content">
+              <h3>Step 6: Frontend + Hosting</h3>
+              <p>Designed a clean Bootstrap-based UI. Deployed the frontend to Vercel and backend to Railway, ensuring a scalable, full-stack LLM delivery pipeline.</p>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </section>    
     <!-- Services Section -->
     <section id="services" class="services section">
 
@@ -443,7 +608,7 @@
 
         <div class="row gy-4">
 
-          <div class="col-lg-4">
+          <div class="col-lg-12">
             <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
               <i class="bi bi-geo-alt flex-shrink-0"></i>
               <div>
@@ -470,7 +635,7 @@
 
           </div>
 
-          <div class="col-lg-8">
+          <!--div class="col-lg-8">
             <form action="#" id="sendMail" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
               <div class="row gy-4">
 
@@ -500,7 +665,7 @@
 
               </div>
             </form>
-          </div><!-- End Contact Form -->
+          </div--><!-- End Contact Form -->
 
         </div>
 
@@ -556,7 +721,9 @@
   <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
@@ -571,7 +738,7 @@
           console.error('Error:', error);
           alert('Failed to send message.');
         });
-        
+
       });
     });
 
