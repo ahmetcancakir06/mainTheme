@@ -88,7 +88,7 @@
         if (!token || !currentUsername) {
             window.location.href = "./login.html";
         }
-        const socket = io("http://89.144.20.9:3000", {
+        const socket = io("http://chatapi.ahmetlab.tech", {
             auth: {
                 token: token
             },
@@ -205,7 +205,7 @@
             $("#msg_card_body").empty();
 
             // ✅ Eski mesajları çek
-            fetch(`http://89.144.20.9:3000/api/messages/${receiverUser._id}`, {
+            fetch(`http://chatapi.ahmetlab.tech/api/messages/${receiverUser._id}`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -240,7 +240,7 @@
         }
         // Fetch users
         function getUsers() {
-            fetch("http://89.144.20.9:3000/api/users", {
+            fetch("http://chatapi.ahmetlab.tech/api/users", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -290,7 +290,7 @@
         }
 
         function disconnect() {
-            fetch(`http://89.144.20.9:3000/api/auth/logout`, {
+            fetch(`http://chatapi.ahmetlab.tech/api/auth/logout`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`

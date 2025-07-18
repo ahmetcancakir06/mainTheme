@@ -75,7 +75,7 @@
                 const password = $("#password").val();
 
                 $.ajax({
-                    url: "http://89.144.20.9:3000/api/auth/register",
+                    url: "http://chatapi.ahmetlab.tech/api/auth/register",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({ email,username, password }),
