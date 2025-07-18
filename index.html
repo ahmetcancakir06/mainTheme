@@ -33,11 +33,13 @@
     .pipeline-section {
       position: relative;
     }
+
     .timeline {
       position: relative;
       max-width: 900px;
       margin: auto;
     }
+
     .timeline::after {
       content: '';
       position: absolute;
@@ -48,18 +50,22 @@
       left: 50%;
       margin-left: -3px;
     }
+
     .timeline-container {
       padding: 20px 40px;
       position: relative;
       background-color: inherit;
       width: 50%;
     }
+
     .timeline-container.left {
       left: 0;
     }
+
     .timeline-container.right {
       left: 50%;
     }
+
     .timeline-container::after {
       content: '';
       position: absolute;
@@ -72,34 +78,40 @@
       border-radius: 50%;
       z-index: 1;
     }
+
     .timeline-container.right::after {
       left: -10px;
     }
+
     .content {
       padding: 20px 30px;
       background-color: white;
       position: relative;
       border-radius: 6px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
+
     @media screen and (max-width: 768px) {
       .timeline-container {
         width: 100%;
         padding-left: 70px;
         padding-right: 25px;
       }
+
       .timeline-container.right {
         left: 0%;
       }
+
       .timeline::after {
         left: 31px;
       }
+
       .timeline-container::after {
         left: 15px;
       }
     }
-    </style>
-    
+  </style>
+
 </head>
 
 <body class="index-page">
@@ -116,6 +128,8 @@
         <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i><span>Resume</span></a></li>
         <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i><span>Services</span></a></li>
         <li><a href="#contact"><i class="bi bi-envelope navicon"></i><span>Contact</span></a></li>
+        <li><a target="_blank" href="./chat/login.html"><i class="bi bi-chat navicon"></i><span>Chat Live</span></a></li>
+
       </ul>
     </nav>
 
@@ -361,7 +375,7 @@
               <h4>Other Tools</h4>
               <p><em>3CX IP PBX, Google Cloud APIs, OpenAI API, Arduino, Linux CLI</em></p>
             </div><!-- Edn Resume Item -->
-            
+
 
           </div>
 
@@ -417,62 +431,69 @@
       </div>
 
     </section><!-- /Resume Section -->
-    <section id="pipeline" class="pipeline-section" style="background:#fdfdfd; padding: 60px 20px; font-family:'Poppins', sans-serif;">
+    <section id="pipeline" class="pipeline-section"
+      style="background:#fdfdfd; padding: 60px 20px; font-family:'Poppins', sans-serif;">
       <div class="container">
         <h2 style="text-align:center; font-weight:700; margin-bottom:40px;">LLM Project Pipeline</h2>
         <div class="timeline">
-    
+
           <!-- Step 1 -->
           <div class="timeline-container left">
             <div class="content">
               <h3>Step 1: Prompt Engineering & Data Generation</h3>
-              <p>Designed high-quality prompt templates targeting vehicle tuning and modification domains. Leveraged Together.AI's inference API to auto-generate thousands of diverse technical questions.</p>
+              <p>Designed high-quality prompt templates targeting vehicle tuning and modification domains. Leveraged
+                Together.AI's inference API to auto-generate thousands of diverse technical questions.</p>
             </div>
           </div>
-    
+
           <!-- Step 2 -->
           <div class="timeline-container right">
             <div class="content">
               <h3>Step 2: Dataset Expansion via Automated Answering</h3>
-              <p>Developed a Python-based pipeline that systematically queried and collected AI-generated answers, resulting in a multilingual, domain-specific dataset exceeding 5,000 Q&A pairs.</p>
+              <p>Developed a Python-based pipeline that systematically queried and collected AI-generated answers,
+                resulting in a multilingual, domain-specific dataset exceeding 5,000 Q&A pairs.</p>
             </div>
           </div>
-    
+
           <!-- Step 3 -->
           <div class="timeline-container left">
             <div class="content">
               <h3>Step 3: Fine-Tuning the LLM (Phi-4)</h3>
-              <p>Executed model fine-tuning using Hugging Face's transformers and datasets libraries on Google Colab. Applied LoRA-based optimization for training efficiency on limited GPU resources.</p>
+              <p>Executed model fine-tuning using Hugging Face's transformers and datasets libraries on Google Colab.
+                Applied LoRA-based optimization for training efficiency on limited GPU resources.</p>
             </div>
           </div>
-    
+
           <!-- Step 4 -->
           <div class="timeline-container right">
             <div class="content">
               <h3>Step 4: Deploying to Hugging Face Spaces</h3>
-              <p>Packaged the fine-tuned model into an interactive inference app using Gradio, and deployed it seamlessly to Hugging Face Spaces for public demo access.</p>
+              <p>Packaged the fine-tuned model into an interactive inference app using Gradio, and deployed it
+                seamlessly to Hugging Face Spaces for public demo access.</p>
             </div>
           </div>
-    
+
           <!-- Step 5 -->
           <div class="timeline-container left">
             <div class="content">
               <h3>Step 5: Backend API with FastAPI + FAISS</h3>
-              <p>Built a production-ready RAG system powered by FastAPI. Integrated FAISS vector search with dynamic content retrieval, enabling domain-aware query responses from the dataset.</p>
+              <p>Built a production-ready RAG system powered by FastAPI. Integrated FAISS vector search with dynamic
+                content retrieval, enabling domain-aware query responses from the dataset.</p>
             </div>
           </div>
-    
+
           <!-- Step 6 -->
           <div class="timeline-container right">
             <div class="content">
               <h3>Step 6: Frontend + Hosting</h3>
-              <p>Designed a clean Bootstrap-based UI. Deployed the frontend to Vercel and backend to Railway, ensuring a scalable, full-stack LLM delivery pipeline.</p>
+              <p>Designed a clean Bootstrap-based UI. Deployed the frontend to Vercel and backend to Railway, ensuring a
+                scalable, full-stack LLM delivery pipeline.</p>
             </div>
           </div>
-    
+
         </div>
       </div>
-    </section>    
+    </section>
     <!-- Services Section -->
     <section id="services" class="services section">
 

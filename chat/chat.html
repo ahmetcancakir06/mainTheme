@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+    <style>
+        .card {
+            margin-bottom: 0px;
+            height: 1000px !important;
+        }
+    </style>
+</head>
+<!--Coded With Love By Mutiullah Samim-->
+
+<body>
+    <div class="container-fluid h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-md-4 col-xl-3 chat">
+                <div class="card mb-sm-3 mb-md-0 contacts_card">
+                    <div class="card-header">
+                        <div class="input-group">
+                            <input type="text" placeholder="Search..." name="" class="form-control search">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body contacts_body">
+                        <ui class="contacts">
+                        </ui>
+                    </div>
+                    <div class="card-footer">
+                        <button onclick="disconnect()" class="btn btn-primariy">Logout</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-xl-6 chat">
+                <div class="card">
+                    <div class="card-header msg_head">
+                        <div class="d-flex bd-highlight">
+
+                            <div class="user_info" id="user_info">
+                                <span>Chat with ?</span>
+                                <div id="typing_indicator" style="font-size: 12px; color: #ccc;"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="card-body msg_card_body" id="msg_card_body">
+
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="input-group">
+
+                            <textarea name="" class="form-control type_msg"
+                                placeholder="Type your message..."></textarea>
+                            <div class="input-group-append">
+                                <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+    <script>
+        // 1. conversationId değerini global olarak tanımla:
+        let currentConversationId = null;
+        const currentUsername = localStorage.getItem("username");
+        const token = localStorage.getItem("token");
+        if (!token || !currentUsername) {
+            window.location.href = "./login.html";
+        }
+        const socket = io("http://89.144.20.9:3000", {
+            auth: {
+                token: token
+            },
+            transports: ["websocket"]
+        });
+        $(document).ready(function () {
+
+
+            socket.on("connect", () => {
+                getUsers();
+            });
+
+
+
+            // 3. send_btn click eventini tanımla:
+            $(".send_btn").click(() => {
+                const message = $(".type_msg").val();
+                if (!message.trim() || !currentConversationId) return;
+
+                socket.emit("send_message", {
+                    roomId: currentConversationId,
+                    content: message,
+                    senderId: localStorage.getItem("userId"),
+                    receiverId: getReceiverIdFromRoomId(currentConversationId)
+
+                });
+
+                $(".type_msg").val(""); // input'u temizle
+            });
+
+            // 4. Gelen mesajları dinleyen event'i ekle:
+            // Updated message_received event to support message read tracking
+            socket.on("message_received", ({ senderId, content, timestamp, messageId }) => {
+                const isOwn = senderId === localStorage.getItem("userId");
+                const messageHtml = `
+                    <div class="d-flex ${isOwn ? 'justify-content-end' : 'justify-content-start'} mb-4">
+                        <div class="${isOwn ? 'msg_cotainer_send' : 'msg_cotainer'}">
+                            ${content}
+                            <span id="${messageId}" class="msg_time">${new Date(timestamp).toLocaleTimeString()} <span class="read_tick" style="display: none;">✅</span></span>
+                        </div>
+                    </div>
+                `;
+                $("#msg_card_body").append(messageHtml);
+
+                // emit read confirmation
+                if (!isOwn && messageId) {
+                    socket.emit("read_message", { messageId });
+                }
+            });
+
+            // Listen for message_read event (placeholder for visual update)
+            socket.on("message_read", (data) => {
+                let messageId = null;
+
+                if (typeof data.messageId === "string") {
+                    messageId = data.messageId;
+                } else if (typeof data.messageId === "object" && data.messageId.messageId) {
+                    messageId = data.messageId.messageId;
+                }
+
+
+                const $el = $('#' + CSS.escape(messageId));
+                if ($el.length) {
+                    const oldTime = $el.text();
+                    $el.find(".read_tick").show();
+                }
+            });
+            // Typing indicator logic
+            $(".type_msg").on("input", () => {
+                if (currentConversationId) {
+                    socket.emit("typing", currentConversationId);
+                }
+            });
+
+            socket.on("user_typing", ({ username }) => {
+                console.log("📝 User is typing:", username);
+                $("#typing_indicator").text(`${username} is typing...`);
+                clearTimeout(window.typingTimeout);
+                window.typingTimeout = setTimeout(() => {
+                    $("#typing_indicator").text("");
+                }, 2000);
+            });
+            socket.on("user_joined", () => {
+                $(".read_tick").css("display", "inline");
+            });
+
+            socket.on("user_online",() =>{
+                getUsers();
+            });
+             socket.on("user_offline",() =>{
+                getUsers();
+            });
+
+        });
+
+
+        function joinRoom(username) {
+            if (!currentUsername || !username) return;
+
+            currentConversationId = [currentUsername, username].sort().join("_");
+            socket.emit("join_room", currentConversationId);
+
+            $("#user_info").html(`<span>Chat with ${username}</span>
+        <div id="typing_indicator" style="font-size: 12px; color: #ccc;"></div>`);
+
+            console.log("Joined room:", currentConversationId);
+
+            const allUsers = JSON.parse(localStorage.getItem("onlineUsers") || "[]");
+            const receiverUser = allUsers.find(u => u.username === username);
+
+            if (!receiverUser) return;
+
+            // ✅ Önce mesaj alanını temizle
+            $("#msg_card_body").empty();
+
+            // ✅ Eski mesajları çek
+            fetch(`http://89.144.20.9:3000/api/messages/${receiverUser._id}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && Array.isArray(data.data)) {
+                        data.data.forEach(msg => {
+                            const isOwn = msg.sender === localStorage.getItem("userId");
+                            const messageHtml = `
+                        <div class="d-flex ${isOwn ? 'justify-content-end' : 'justify-content-start'} mb-4">
+                            <div class="${isOwn ? 'msg_cotainer_send' : 'msg_cotainer'}">
+                                ${msg.content}
+                                <span id="${msg._id}" class="msg_time">${new Date(msg.createdAt).toLocaleTimeString()} 
+                                    ${msg.isRead ? '<span class="read_tick">✅</span>' : '<span class="read_tick" style="display:none;">✅</span>'}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                            $("#msg_card_body").append(messageHtml);
+                        });
+
+                        // Scroll to bottom after loading messages
+                        $("#msg_card_body").scrollTop($("#msg_card_body")[0].scrollHeight);
+                    }
+                })
+                .catch(err => {
+                    console.error("Error loading messages:", err);
+                });
+                getUsers();
+        }
+        // Fetch users
+        function getUsers() {
+            fetch("http://89.144.20.9:3000/api/users", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const contactsList = $(".contacts");
+                    contactsList.empty(); // Clear existing contacts
+
+                    if (data.success && Array.isArray(data.data)) {
+                        localStorage.setItem("onlineUsers", JSON.stringify(data.data));
+
+                        const selfUser = data.data.find(user => user.username === currentUsername);
+                        if (selfUser) {
+                            localStorage.setItem("userId", selfUser._id);
+                        }
+                        data.data.forEach(user => {
+                            if (user.username === currentUsername) return;
+                            const contactHtml = `
+                                <li onclick="joinRoom('${user.username}')">
+                                    <div class="d-flex bd-highlight">
+                                        <div class="user_info">
+                                            <span>${user.username}</span>
+                                            <p>${user.username} is ${user.isOnline ? "online" : "offline"}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
+                            contactsList.append(contactHtml);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching online users:", error);
+                });
+        }
+
+        function getReceiverIdFromRoomId(roomId) {
+            const [userA, userB] = roomId.split("_");
+            const current = localStorage.getItem("username");
+            const otherUsername = (userA === current) ? userB : userA;
+
+            const allUsers = JSON.parse(localStorage.getItem("onlineUsers") || "[]");
+            const receiverUser = allUsers.find(u => u.username === otherUsername);
+            return receiverUser ? receiverUser._id : null;
+        }
+
+        function disconnect() {
+            fetch(`http://89.144.20.9:3000/api/auth/logout`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    
+                    localStorage.removeItem("username");
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("onlineUsers");
+
+                    
+                    window.location.href = "./login.html";
+                })
+                .catch(err => {
+                    console.error("Logout error:", err);
+                    
+                    localStorage.clear();
+                    window.location.href = "./login.html";
+                });
+        }
+    </script>
+</body>
+
+</html>

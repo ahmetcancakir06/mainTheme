@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Page</title>
+    <!--Made with love by Mutiullah Samim -->
+
+    <!--Bootsrap 4 CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="login.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Sign In</h3>
+
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="username" placeholder="username">
+
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" class="form-control" id="password" placeholder="password">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn float-right login_btn">
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center links">
+                        Don't have an account?<a href="./register.html">Sign Up</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const token = localStorage.getItem("token");
+            const refreshToken = localStorage.getItem("refreshToken");
+
+            // If token exists, check validity and redirect if valid
+            if (token) {
+                $.ajax({
+                    url: "http://89.144.20.9:3000/api/auth/token", // Replace with an actual protected route
+                    type: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    success: function () {
+                        window.location.href = "/chat.html"; // Redirect on success
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 401 && refreshToken) {
+                            // Token expired - attempt refresh
+                            $.ajax({
+                                url: "http://89.144.20.9:3000/api/auth/refresh",
+                                type: "POST",
+                                contentType: "application/json",
+                                data: JSON.stringify({ refreshToken }),
+                                success: function (res) {
+                                    localStorage.setItem("username", res.data.username);
+                                    localStorage.setItem("token", res.data.token);
+                                    localStorage.setItem("refreshToken", res.data.refreshToken);
+                                    window.location.href = "/front/chat.html";
+                                },
+                                error: function () {
+                                    console.error("Token refresh failed");
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Handle login form submission
+            $("form").on("submit", function (event) {
+                event.preventDefault();
+
+                const username = $("input[name='username']").val();
+                const password = $("#password").val();
+
+                $.ajax({
+                    url: "http://89.144.20.9:3000/api/auth/login",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ username, password }),
+                    success: function (response) {
+                        localStorage.setItem("username", username);
+                        localStorage.setItem("token", response.data.token);
+                        localStorage.setItem("refreshToken", response.data.refreshToken);
+                        window.location.href = "/front/chat.html";
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Login failed:", error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
