@@ -84,7 +84,7 @@
                         window.location.href = "https://ahmetlab.tech/chat/login.html";
                     },
                     error: function (xhr, status, error) {
-                        alert(error);
+                        console.log(xhr,status,error);
                         console.error("Register failed:", error);
                     }
                 });
