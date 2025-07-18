@@ -64,9 +64,10 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function () {
-            
+
             // Handle register form submission
             $("form").on("submit", function (event) {
                 event.preventDefault();
@@ -78,14 +79,25 @@
                     url: "https://chatapi.ahmetlab.tech/api/auth/register",
                     type: "POST",
                     contentType: "application/json",
-                    data: JSON.stringify({ email,username, password }),
+                    data: JSON.stringify({ email, username, password }),
                     success: function (response) {
-                       
-                        window.location.href = "https://ahmetlab.tech/chat/login.html";
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Kayıt Başarılı Giriş Sayfasına Yönlendiriliyorsunuz...",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(() => {
+                            window.location.href = "https://ahmetlab.tech/chat/login.html";    
+                        }, 2000);
                     },
                     error: function (xhr, status, error) {
-                        console.log(xhr,status,error);
-                        console.error("Register failed:", error);
+                        console.log(xhr, status, error);
+                        const errorMessage = xhr.responseJSON && xhr.responseJSON.data
+                            ? xhr.responseJSON.data
+                            : "Kayıt işlemi başarısız oldu. Lütfen bilgilerinizi kontrol edin veya daha sonra tekrar deneyin.";
+                        alert(errorMessage);
                     }
                 });
             });
