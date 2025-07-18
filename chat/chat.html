@@ -86,7 +86,7 @@
         const currentUsername = localStorage.getItem("username");
         const token = localStorage.getItem("token");
         if (!token || !currentUsername) {
-            window.location.href = "./login.html";
+            window.location.href = "https://ahmetlab.tech/chat/login.html";
         }
         const socket = io("https://chatapi.ahmetlab.tech", {
             auth: {
@@ -305,13 +305,13 @@
                     localStorage.removeItem("onlineUsers");
 
                     
-                    window.location.href = "./login.html";
+                    window.location.href = "https://ahmetlab.tech/chat/login.html";
                 })
                 .catch(err => {
                     console.error("Logout error:", err);
                     
                     localStorage.clear();
-                    window.location.href = "./login.html";
+                    window.location.href = "https://ahmetlab.tech/chat/login.html";
                 });
         }
     </script>

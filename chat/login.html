@@ -71,7 +71,7 @@
                         Authorization: `Bearer ${token}`
                     },
                     success: function () {
-                        window.location.href = "/chat.html"; // Redirect on success
+                        window.location.href = "https://ahmetlab.tech/chat/chat.html"; // Redirect on success
                     },
                     error: function (xhr) {
                         if (xhr.status === 401 && refreshToken) {
@@ -85,7 +85,7 @@
                                     localStorage.setItem("username", res.data.username);
                                     localStorage.setItem("token", res.data.token);
                                     localStorage.setItem("refreshToken", res.data.refreshToken);
-                                    window.location.href = "/front/chat.html";
+                                    window.location.href = "https://ahmetlab.tech/chat/chat.html";
                                 },
                                 error: function () {
                                     console.error("Token refresh failed");
@@ -112,7 +112,7 @@
                         localStorage.setItem("username", username);
                         localStorage.setItem("token", response.data.token);
                         localStorage.setItem("refreshToken", response.data.refreshToken);
-                        window.location.href = "/front/chat.html";
+                        window.location.href = "https://ahmetlab.tech/chat/chat.html";
                     },
                     error: function (xhr, status, error) {
                         console.error("Login failed:", error);
